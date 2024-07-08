@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
 const NewsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,31 +34,30 @@ const NewsPage = () => {
   };
 
   return (
-    <div>
+  <div>
     <Header />
     <div className="min-h-screen bg-cover bg-center bg-fixed" style={{backgroundImage: "url('/bg_02.png')"}}>
       <div className="min-h-screen  text-gray-200 p-8 overflow-auto">
         <header className="mb-8">
-          <h1 className="text-4xl font-bold text-red-600 mb-2">ダークレルム・クロニクル</h1>
-          <p className="text-xl text-gray-400">闇からの最新ニュースをお届けします</p>
+          <h1 className="text-4xl font-bold text-red-600 mb-2">NEWS</h1>
         </header>
-      <div className="flex items-center justify-center">
-        <div className="space-y-6">
-        {currentNews.map((item, index) => (
-          <Card key={index} className="bg-zinc-800/80 border-gray-700 hover:border-red-500 transition-colors duration-300 max-w-[1000px]">
-            <CardHeader className='bg-amber-200/50 rounded-br-full mr-10'>
-              <CardTitle className="text-xl text-white">{item.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-300">{truncate(item.content, 100)}</p>
-            </CardContent>
-            <CardFooter className="text-sm text-gray-500">
-              {item.date}
-            </CardFooter>
-          </Card>
-        ))}
+        <div className="flex items-center justify-center">
+          <div className="space-y-6">
+          {currentNews.map((item, index) => (
+            <Card key={index} className="bg-zinc-800/80 border-gray-700 hover:border-red-500 transition-colors duration-300 max-w-[1000px]">
+              <CardHeader className='bg-amber-200/50 rounded-br-full mr-10'>
+                <CardTitle className="text-xl text-white">{item.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-300">{truncate(item.content, 100)}</p>
+              </CardContent>
+              <CardFooter className="text-sm text-gray-500">
+                {item.date}
+              </CardFooter>
+            </Card>
+          ))}
+          </div>
         </div>
-      </div>
           <div className="mt-8 flex justify-center items-center space-x-4">
             <Button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -79,13 +79,10 @@ const NewsPage = () => {
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
-
-        <footer className="mt-12 text-center text-gray-500">
-          <p>&copy; 2024 ダークレルム・クロニクル. All rights reserved.</p>
-        </footer>
       </div>
     </div>
-    </div>
+    <Footer />
+  </div>
   );
 };
 

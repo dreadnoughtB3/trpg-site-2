@@ -19,3 +19,21 @@ model User {
   name  String @unique
   password String
 }
+
+model Scenario {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  event_date DateTime
+  members String[]
+  world String
+  desc String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model News {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  desc String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+} 
