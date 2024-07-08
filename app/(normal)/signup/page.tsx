@@ -10,7 +10,7 @@ import Header from '@/app/components/Header';
 
 const LEDLCDBackground: React.FC = () => (
   <div className="fixed inset-0 bg-black overflow-hidden">
-    <div className="absolute inset-0 bg-gray-900 opacity-20" 
+    <div className="absolute inset-0 bg-gray-500 opacity-20" 
          style={{backgroundImage: 'radial-gradient(#444 1px, transparent 1px)', backgroundSize: '4px 4px'}} />
     <div className="scanline absolute top-0 left-0 w-full h-2 bg-white opacity-10 animate-scanline" />
     <style jsx>{`
@@ -63,7 +63,7 @@ const SignupPage: React.FC = () => {
         <Header />
       </div>
       <LEDLCDBackground />
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-900 text-green-400 font-mono">
+      <div className="pt-24 min-h-screen flex items-center justify-center p-4 bg-gray-900 text-green-400 font-mono">
         <div className="w-full max-w-md bg-black bg-opacity-80 p-6 rounded-lg shadow-2xl border border-green-400 z-10">
           <div className="mb-4">
             <Terminal className="w-6 h-6 inline-block mr-2" />

@@ -18,9 +18,11 @@ const config = {
       },
     },
     extend: {
+      bosShadow: {
+'       custom': '1 1 1 10px #A0A0A0, 0 0 0 4px #5A5A5A, 0 0 0 6px #FFD700',
+      },
       colors: {
         primary_sub: '#0f0e25',
-        accent: '#ffb700',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
