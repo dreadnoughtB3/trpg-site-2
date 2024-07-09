@@ -32,10 +32,10 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const router = useRouter();
 
   const loginUser = Auth();
   if (loginUser.discord) {
-    const router = useRouter();
     router.push("/mypage");
   }
 

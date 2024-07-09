@@ -5,7 +5,7 @@ import { Terminal, User, Lock, MessageSquare, AlertCircle } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Auth from '@/app/utils/Auth';
 import Link from 'next/link';
 import Header from '@/app/components/Header';
@@ -33,10 +33,10 @@ const SignupPage: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [discordId, setDiscordId] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const router = useRouter();
 
   const loginUser = Auth();
   if (loginUser.discord) {
-    const router = useRouter();
     router.push("/mypage");
   }
 
