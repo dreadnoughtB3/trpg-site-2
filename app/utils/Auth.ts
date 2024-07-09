@@ -1,9 +1,15 @@
 "use client"
-import { jwtVerify } from "jose";
+import { jwtVerify, JWTPayload } from "jose";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const useAuth = () => {
+interface MyJWTPayload extends JWTPayload {
+  discord: string;
+  username: string;
+  exp: number;
+}
+
+const Auth = () => {
   const [loginUser, setLoginUser] = useState({
     discord: "",
     exp: 0,
@@ -25,11 +31,9 @@ const useAuth = () => {
         //3:トークンがある場合は有効性をチェック
         try {
             const secretKey = new TextEncoder().encode("for-the-emperor");
-            const decodedJWT = await jwtVerify(token, secretKey);
+            const { payload } = await jwtVerify(token, secretKey);
+            setLoginUser(payload as MyJWTPayload);
 
-            //ログインユーザーをセット
-            setLoginUser(decodedJWT.payload);
-            
         } catch (error) {
             //トークンが不正な場合はログイン画面に遷移
             router.push("/signin");
@@ -43,4 +47,4 @@ const useAuth = () => {
   return loginUser;
 };
 
-export default useAuth;
+export default Auth;

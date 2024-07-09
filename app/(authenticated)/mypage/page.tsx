@@ -1,9 +1,9 @@
 "use client"
-import useAuth from '@/app/utils/useAuth';
+import Auth from '@/app/utils/Auth';
 import React from 'react'
 
 const page = () => {
-  const loginUser = useAuth();
+  const loginUser = Auth();
 
   if (loginUser) {
     return (

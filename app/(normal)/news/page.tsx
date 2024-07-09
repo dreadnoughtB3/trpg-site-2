@@ -6,25 +6,35 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
+import axios from 'axios';
+
+interface NewsItem {
+  id: number;
+  title: string;
+  content: string;
+  date: Date;
+}
 
 const NewsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
+  const [isLoading, setIsLoading] = useState(false);
+  const [news, setNews] = useState<NewsItem[]>([]);
 
-  const news = [
-    { title: "新ダンジョン「永遠の闇の墓所」がリリース", content: "最新アップデートで、プレイヤーの皆様に新たな挑戦をご用意しました。「永遠の闇の墓所」では、古代の呪いと対峙し、眠れる王の秘宝を求めて冒険することができます。高難度のパズルと強敵が待ち受ける本ダンジョンは、経験豊富な冒険者の皆様にも新たな試練をお届けします。", date: "2024-07-07" },
-    { title: "血月祭PvPトーナメント開催迫る", content: "来週末、年に一度の血月祭PvPトーナメントが開催されます。今年は特別な報酬として、勝者には伝説の「月光の剣」が贈られます。腕に自信のある方は、ぜひご参加ください。", date: "2024-07-10" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-    { title: "ネクロマンサーとパラディンのバランス調整", content: "プレイヤーの皆様からのフィードバックを元に、ネクロマンサーとパラディンクラスのスキルバランスを調整しました。詳細は公式フォーラムをご確認ください。", date: "2024-07-05" },
-  ];
+  const fetchNews = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get('/api/news', {
+        params: { currentPage }
+      });
+      setNews(response.data);
+      setCurrentPage(prevPage => prevPage + 1);
+    } catch (error) {
+      console.error('ニュースの取得に失敗しました:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const pageCount = Math.ceil(news.length / itemsPerPage);
   const currentNews = news.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -52,7 +62,7 @@ const NewsPage = () => {
                 <p className="text-gray-300">{truncate(item.content, 100)}</p>
               </CardContent>
               <CardFooter className="text-sm text-gray-500">
-                {item.date}
+                {item.date.toString()}
               </CardFooter>
             </Card>
           ))}
