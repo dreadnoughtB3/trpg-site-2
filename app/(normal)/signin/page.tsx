@@ -5,8 +5,10 @@ import { Terminal, User, Lock, AlertCircle } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import Header from '@/app/components/Header';
+import Auth from '@/app/utils/Auth';
 
 const LEDLCDBackground: React.FC = () => (
   <div className="fixed inset-0 bg-black overflow-hidden">
@@ -30,6 +32,12 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+
+  const loginUser = Auth();
+  if (loginUser.discord) {
+    const router = useRouter();
+    router.push("/mypage");
+  }
 
   let flg = false;
   let msg = "";

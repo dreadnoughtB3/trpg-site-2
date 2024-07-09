@@ -29,27 +29,30 @@ export async function POST(request:NextRequest){
 }
 
 export async function GET(request:NextRequest){
-  const body = await request.json();
+  const params = request.nextUrl.searchParams;
+  const world = params.get('world') || 'any'
+  const year = params.get('year')
+  const month = params.get('month')
   let scenarioData = {}
 
   try {
     prisma.$connect;
-    if (body.world != "any") {
+    if (world != "any") {
       scenarioData = await prisma.scenario.findMany({
         where: {
           event_date: {
-            gte: new Date(`${body.year}-${body.month}-1`),
-            lt: new Date(`${body.year}-${body.month}-31`)
+            gte: new Date(`${year}-${month}-1`),
+            lt: new Date(`${year}-${month}-31`)
           },
-          world: body.world
+          world: world
         }
       })
     } else {
       scenarioData = await prisma.scenario.findMany({
         where: {
           event_date: {
-            gte: new Date(`${body.year}-${body.month}-1`),
-            lt: new Date(`${body.year}-${body.month}-31`)
+            gte: new Date(`${year}-${month}-1`),
+            lt: new Date(`${year}-${month}-31`)
           }
         }
       })

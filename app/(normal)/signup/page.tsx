@@ -5,6 +5,8 @@ import { Terminal, User, Lock, MessageSquare, AlertCircle } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useRouter } from 'next/router';
+import Auth from '@/app/utils/Auth';
 import Link from 'next/link';
 import Header from '@/app/components/Header';
 
@@ -32,6 +34,12 @@ const SignupPage: React.FC = () => {
   const [discordId, setDiscordId] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  const loginUser = Auth();
+  if (loginUser.discord) {
+    const router = useRouter();
+    router.push("/mypage");
+  }
+
   useEffect(() => {
     const text = '$ sudo useradd -m ';
     setTerminalContent(text)
@@ -52,8 +60,6 @@ const SignupPage: React.FC = () => {
       setError('Password is too weak. It should contain uppercase, lowercase, and numbers.');
     } else {
       setError('');
-      // Handle form submission here
-      console.log({ username, password, discordId });
     }
   };
 

@@ -1,23 +1,27 @@
 "use client"
 import Auth from '@/app/utils/Auth';
 import React from 'react'
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
-const page = () => {
+const page: React.FC = () => {
   const loginUser = Auth();
 
-  if (loginUser) {
+  if (loginUser.discord){
     return (
       <div>
-        <h1>マイページ</h1>
-        <p>ユーザー名：{ loginUser.username && loginUser.username }</p>
-        <p>メールアドレス：{ loginUser.discord && loginUser.discord }</p>
+        <Header />
+        <div className="min-h-screen bg-slate-600">
+          <div >
+            <p>まだなにもないです</p>
+          </div>
+        </div>
+        <Footer />
       </div>
     )
   } else {
     return (
-      <div>
-        <div>ERROR!</div>
-      </div>
+      <div>確認中...</div>
     )
   }
 }

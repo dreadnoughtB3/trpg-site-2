@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronUp, Facebook, Twitter, Youtube, Instagram } from 'lucide-react';
+import { ChevronUp, Twitter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Footer = () => {
@@ -40,16 +40,7 @@ const Footer = () => {
         <div className="mt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex space-x-4 mb-4 md:mb-0">
             <Button variant="ghost" size="icon">
-              <Facebook className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
               <Twitter className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Youtube className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Instagram className="h-5 w-5" />
             </Button>
           </div>
           <p className="text-sm">&copy;2024 mayonaka4355. All Rights Reserved.</p>
