@@ -34,6 +34,9 @@ model News {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   desc String
+  body String
+  slug Int
+  published_at DateTime
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 } 

@@ -12,7 +12,7 @@ export default function Home() {
   <div>
     <div>
     <Header />
-      <div className="min-h-screen bg-cover bg-fixed bg-center" style={{backgroundImage: "url('/bg_02.png')"}}>
+      <div className="min-h-screen bg-cover bg-center" style={{backgroundImage: "url('/bg_02.png')"}}>
         <div className="flex justify-center mx-4 pt-16">
           <Image className="border rounded-lg border-yellow-600 bg-gray-800/50" src={logoImage} alt="Logo" width={700} height={40} />
         </div>

@@ -4,17 +4,22 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function POST(request:NextRequest){
-  const body = await request.json();
+  const reqBody = await request.json();
 
   try {
     prisma.$connect();
 
-    const formattedDate = new Date(body.date)
+    const cnt = await prisma.news.count()
+
+    const formattedDate = new Date(reqBody.published_at)
 
     const created_data = await prisma.news.create({
       data: {
-        title: body.title,
-        desc: body.desc
+        title: reqBody.title,
+        desc: reqBody.desc,
+        body: reqBody.body,
+        published_at: formattedDate,
+        slug: cnt + 1
       }
     })
     return NextResponse.json({ message: "ニュース作成成功", data: created_data })
@@ -34,7 +39,7 @@ export async function GET(request:NextRequest){
 
     newsData = await prisma.news.findMany({
       orderBy: {
-        created_at: 'desc',
+        published_at: 'asc',
       },
     })
   } catch (error) {
