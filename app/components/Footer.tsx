@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronUp, Twitter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -39,9 +40,11 @@ const Footer = () => {
         
         <div className="mt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex space-x-4 mb-4 md:mb-0">
-            <Button variant="ghost" size="icon">
-              <Twitter className="h-5 w-5" />
-            </Button>
+            <Link href="https://twitter.com/SFTN_TRPG">
+              <Button variant="ghost" size="icon">
+                <Twitter className="h-5 w-5" />
+              </Button>
+            </Link>
           </div>
           <p className="text-sm">&copy;2024 mayonaka4355. All Rights Reserved.</p>
         </div>

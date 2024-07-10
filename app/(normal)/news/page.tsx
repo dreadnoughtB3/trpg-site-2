@@ -7,15 +7,19 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import { getNews } from '@/features/api/getNews';
+import { useRouter } from "next/navigation";
 
 interface NewsItem {
   id: number;
   title: string;
   desc: string;
-  created_at: string;
+  published_at: string;
+  slug: number;
 }
 
 const NewsPage = () => {
+  const router = useRouter();
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +40,7 @@ const NewsPage = () => {
     }
     return (
       news.map((item, index) => (
-        <Card key={index} className="bg-zinc-800/80 border-gray-700 hover:border-red-500 transition-colors duration-300">
+        <Card key={index} onClick={() => {router.push(`/news/${item.slug}`)}} className="bg-zinc-800/80 border-gray-700 hover:border-red-500 transition-colors duration-300 cursor-pointer">
           <CardHeader className='bg-amber-200/50 rounded-br-full mr-10'>
             <CardTitle className="text-xl text-white">{item.title}</CardTitle>
           </CardHeader>
@@ -44,7 +48,7 @@ const NewsPage = () => {
             <p className="text-gray-300">{truncate(item.desc, 100)}</p>
           </CardContent>
           <CardFooter className="text-sm text-gray-500">
-            {item.created_at.split("T")[0]}
+            {item.published_at.split("T")[0]}
           </CardFooter>
         </Card>
       ))
@@ -60,7 +64,7 @@ const NewsPage = () => {
   return (
   <div>
     <Header />
-    <div className="min-h-screen bg-cover bg-center bg-fixed" style={{backgroundImage: "url('/bg_02.png')"}}>
+    <div className="min-h-screen bg-cover bg-center" style={{backgroundImage: "url('/bg_02.png')"}}>
       <div className="min-h-screen w-full text-gray-200 p-8 overflow-auto">
         <header className="mb-8">
           <h1 className="text-4xl font-bold text-red-600 mb-2">NEWS</h1>

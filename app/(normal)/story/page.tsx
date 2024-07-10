@@ -13,6 +13,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { getStory } from '@/features/api/getStory';
+import ScenarioDialog from '@/app/components/ScenarioDialog';
 
 interface StoryItem {
   world: string;
@@ -23,16 +24,21 @@ interface StoryItem {
 
 const StoryViewer = () => {
   const months = [1,2,3,4,5,6,7,8,9,10,11,12]
-  const test = true
+  const [openDialog, setOpenDialog] = useState(false);
   const [buttonState, setButtonState] = useState(true)
   const [isLoading, setIsLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [scenarioData, setScenarioData] = useState<StoryItem>();
   const [formData, setFormData] = useState({
     year: "",
     month: "",
     world: ""
   });
   const [story, setStory] = useState<StoryItem[]>([]);
+
+  const truncate = (str: string, n: number) => {
+    return (str.length > n) ? str.substring(0, n-1) + '...' : str;
+  };
 
   function handleSelect(value:string, name:string){
     setFormData((prevData) => ({
@@ -52,6 +58,11 @@ const StoryViewer = () => {
         setIsEmpty(true);
       }
     });
+  }
+
+  function handleDialog(data:StoryItem){
+    setScenarioData(data);
+    setOpenDialog(true);
   }
 
   useEffect(() => {
@@ -102,8 +113,8 @@ const StoryViewer = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectItem value="any">両方</SelectItem>
-                  <SelectItem value="noct">ノクターン</SelectItem>
-                  <SelectItem value="fant">ファンタジア</SelectItem>
+                  <SelectItem value="ノクターン">ノクターン</SelectItem>
+                  <SelectItem value="ファンタジア">ファンタジア</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -114,15 +125,15 @@ const StoryViewer = () => {
               {isLoading && <div className="text-center text-gray-300 my-6 text-xl">ロード中</div>}
               {isEmpty && <div className="text-center text-gray-300 my-6 text-xl">検索結果がありません</div>}
               {!isLoading && !isEmpty && story.length == 0 ? <div className="text-center text-gray-300 my-6 text-xl">条件を選択してください</div> : <div></div>}
-              {test && 
+              { 
                 story.map((item, index) => {
                   return (
-                    <div key={index} className="my-5 w-full p-2 rounded-tr-xl rounded-bl-xl cursor-pointer
+                    <div onClick={() => handleDialog(item)} key={index} className="my-5 h-[200px] sm:h-[170px] w-full p-2 rounded-tr-xl rounded-bl-xl cursor-pointer
                     bg-slate-900/70 border-yellow-500 border ring ring-slate-900 ring-ring text-gray-300">
                       <p>開催日: {item.event_date.split('T')[0]}</p>
                       <p>世界: {item.world}</p>
                       <p>人数: {item.members.length}人</p>
-                      <p>あらすじ: {item.desc}</p>
+                      <p>あらすじ: {truncate(item.desc, 90)}</p>
                     </div>
                   )
                 })
@@ -131,6 +142,10 @@ const StoryViewer = () => {
           </div>
         </div>
       </div>
+      <ScenarioDialog 
+        data={scenarioData || {desc:"",world:"",event_date:"",members:[]}}
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}/>
     </div>
     <Footer />
   </div>
