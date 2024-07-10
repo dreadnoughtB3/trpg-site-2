@@ -6,9 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRouter } from 'next/navigation';
-import Auth from '@/app/utils/Auth';
 import Link from 'next/link';
+import { postUser } from '@/features/api/postUser';
 import Header from '@/app/components/Header';
+import CheckAuth from '@/app/utils/CheckAuth';
+import { AxiosResponse } from 'axios';
 
 const LEDLCDBackground: React.FC = () => (
   <div className="fixed inset-0 bg-black overflow-hidden">
@@ -33,12 +35,11 @@ const SignupPage: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [discordId, setDiscordId] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const router = useRouter();
+  const [isProcessed, setIsProcessed] = useState(false);
 
-  const loginUser = Auth();
-  if (loginUser.discord) {
-    router.push("/mypage");
-  }
+  CheckAuth()
+
+  const router = useRouter();
 
   useEffect(() => {
     const text = '$ sudo useradd -m ';
@@ -50,7 +51,9 @@ const SignupPage: React.FC = () => {
     return password.length > 6 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !password || !discordId) {
       setError('All fields are required.');
@@ -60,6 +63,19 @@ const SignupPage: React.FC = () => {
       setError('Password is too weak. It should contain uppercase, lowercase, and numbers.');
     } else {
       setError('');
+      setIsProcessed(true);
+      const res = await postUser({ "discord": discordId, "name": username, "password": password })
+      .then((v:AxiosResponse) => {
+        if(v.data.message == 'アカウント作成失敗'){
+          if(v.data.code == 'P2002'){
+            setError('Username or ID already exists.')
+          }
+        }else{
+          router.push('/signin')
+        }
+
+        setIsProcessed(false);
+      })
     }
   };
 
@@ -132,7 +148,7 @@ const SignupPage: React.FC = () => {
             </div>
           )}
             
-            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-black">
+            <Button disabled={isProcessed} type="submit" className="w-full bg-green-600 hover:bg-green-700 text-black">
               Create Account
             </Button>
           </form>

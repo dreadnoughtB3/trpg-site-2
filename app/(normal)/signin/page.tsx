@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import Header from '@/app/components/Header';
-import Auth from '@/app/utils/Auth';
+import CheckAuth from '@/app/utils/CheckAuth';
 
 const LEDLCDBackground: React.FC = () => (
   <div className="fixed inset-0 bg-black overflow-hidden">
@@ -32,12 +32,10 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [isProcessed, setIsProcessed] = useState(false);
   const router = useRouter();
 
-  const loginUser = Auth();
-  if (loginUser.discord) {
-    router.push("/mypage");
-  }
+  CheckAuth()
 
   let flg = false;
   let msg = "";
@@ -53,6 +51,7 @@ const LoginPage: React.FC = () => {
       setError('Username and password are required.');
     } else {
       setError('');
+      setIsProcessed(true);
       try {
         const response = await fetch("/api/user/signin", {
           method: "POST",
@@ -69,16 +68,17 @@ const LoginPage: React.FC = () => {
         msg = jsondata.message;
   
         if (flg) {
-          //成功したら、トークンを保存
           if ("token" in jsondata) {
             localStorage.setItem("token", jsondata.token);
-            alert(msg);
+            router.push('/mypage')
           }
         } else {
+          setIsProcessed(false);
           setError(msg);
         }
       } catch (error) {
         setError("Login failed");
+        setIsProcessed(false);
       }
     }
   };
@@ -138,7 +138,7 @@ const LoginPage: React.FC = () => {
               </div>
             )}
             
-            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-black">
+            <Button disabled={isProcessed} type="submit" className="w-full bg-green-600 hover:bg-green-700 text-black">
               Login
             </Button>
           </form>

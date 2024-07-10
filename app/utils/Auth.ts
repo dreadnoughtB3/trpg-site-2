@@ -20,23 +20,18 @@ const Auth = () => {
 
   useEffect(() => {
     const checkToken = async () => {
-
-      //1:トークを取得する
       const token = localStorage.getItem("token");
 
-      //2:トークンがあるかどうか
       if (!token) {
         router.push("/signin");
       } else {
-        //3:トークンがある場合は有効性をチェック
         try {
-            const secretKey = new TextEncoder().encode("for-the-emperor");
-            const { payload } = await jwtVerify(token, secretKey);
-            setLoginUser(payload as MyJWTPayload);
+          const secretKey = new TextEncoder().encode("for-the-emperor");
+          const { payload } = await jwtVerify(token, secretKey);
+          setLoginUser(payload as MyJWTPayload);
 
         } catch (error) {
-            //トークンが不正な場合はログイン画面に遷移
-            router.push("/signin");
+          router.push("/signin");
         }
       }
     };
