@@ -33,7 +33,7 @@ export async function POST(request:NextRequest){
     }
 
     const token = await new SignJWT(payload).setProtectedHeader({alg:"HS256"})
-    .setExpirationTime("10sec")
+    .setExpirationTime("2h")
     .sign(secretKey);
 
     return new NextResponse(JSON.stringify({ flg: true, token: token, userId: user.id }), {
