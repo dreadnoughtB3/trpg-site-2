@@ -6,8 +6,6 @@ const prisma = new PrismaClient();
 
 export async function POST(request:NextRequest){
   const body = await request.json();
-  console.log(body)
-
   try {
     prisma.$connect();
 

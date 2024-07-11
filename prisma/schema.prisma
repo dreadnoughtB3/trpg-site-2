@@ -18,6 +18,8 @@ model User {
   discord String @unique
   name  String @unique
   password String
+  Characters Character[]
+  characterSettings CharacterSetting[]
 }
 
 model Scenario {
@@ -40,3 +42,69 @@ model News {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 } 
+
+model CharacterSetting {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  slug Int
+  name String
+  world String
+  sex String
+  age Int
+  specie Int
+  body String
+  owner User @relation(fields: [ownerId], references: [id])
+  ownerId String @db.ObjectId
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Character {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  slug Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  owner       User       @relation(fields: [ownerId], references: [id])
+  ownerId     String     @db.ObjectId
+  profile     profile
+  status      status
+  battleSkill skill[]
+  searchSkill skill[]
+  actitonSkill skill[]
+  academicSkill skill[]
+  creativeSkill skill[]
+  worldSkill skill[]
+  otherSkill skill[]
+}
+
+model ItemData {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  world String
+  name String
+  desc String
+  obtain String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+type profile {
+  name String
+}
+
+type status {
+  name String
+  value Int
+  addValue buff[]
+}
+
+type skill {
+  skillId String
+  skillType Int @default(0)
+  addName String 
+  value Int @default(0)
+  addValue buff[]
+}
+
+type buff {
+  name String
+  value Int @default(0)
+}

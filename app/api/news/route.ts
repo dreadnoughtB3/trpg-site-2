@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
+const rand = (min: number, max: number): number => {
+  return (Math.floor(Math.random() * (max - min + 1)) + min);
+};
+
 const prisma = new PrismaClient();
 
 export async function POST(request:NextRequest){
@@ -9,7 +13,6 @@ export async function POST(request:NextRequest){
   try {
     prisma.$connect();
 
-    const cnt = await prisma.news.count()
 
     const formattedDate = new Date(reqBody.published_at)
 
@@ -19,7 +22,7 @@ export async function POST(request:NextRequest){
         desc: reqBody.desc,
         body: reqBody.body,
         published_at: formattedDate,
-        slug: cnt + 1
+        slug: rand(10000,99999)
       }
     })
     return NextResponse.json({ message: "ニュース作成成功", data: created_data })

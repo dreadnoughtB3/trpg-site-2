@@ -51,8 +51,6 @@ const SignupPage: React.FC = () => {
     return password.length > 6 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password);
   };
 
-  const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !password || !discordId) {

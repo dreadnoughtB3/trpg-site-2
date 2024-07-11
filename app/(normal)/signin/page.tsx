@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
   const [isProcessed, setIsProcessed] = useState(false);
   const router = useRouter();
 
-  CheckAuth()
+  CheckAuth();
 
   let flg = false;
   let msg = "";
@@ -70,6 +70,7 @@ const LoginPage: React.FC = () => {
         if (flg) {
           if ("token" in jsondata) {
             localStorage.setItem("token", jsondata.token);
+            localStorage.setItem("uid", jsondata.userId);
             router.push('/mypage')
           }
         } else {
