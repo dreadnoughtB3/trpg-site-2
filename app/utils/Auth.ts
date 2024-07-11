@@ -31,6 +31,8 @@ const Auth = () => {
           setLoginUser(payload as MyJWTPayload);
 
         } catch (error) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('uid');
           router.push("/signin");
         }
       }

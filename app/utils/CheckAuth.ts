@@ -12,9 +12,12 @@ const CheckAuth = () => {
       if (token){
         try {
           const secretKey = new TextEncoder().encode("for-the-emperor");
-          jwtVerify(token, secretKey);
-          router.push('/mypage')
-        } catch (error) {}
+          await jwtVerify(token, secretKey);
+          router.push('/mypage');
+        } catch (error) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('uid');
+        }
       }
     };
 

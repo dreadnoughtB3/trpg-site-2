@@ -33,12 +33,17 @@ export async function POST(request:NextRequest){
     }
 
     const token = await new SignJWT(payload).setProtectedHeader({alg:"HS256"})
-    .setExpirationTime("2h")
+    .setExpirationTime("10sec")
     .sign(secretKey);
 
-    return NextResponse.json({message:"ログイン成功",flg:true,token:token})
+    return new NextResponse(JSON.stringify({ flg: true, token: token, userId: user.id }), {
+      status: 200,
+      headers: {
+        'Set-Cookie': `token=${token}; HttpOnly;`
+      }
+    })
   } catch (error) {
-    return NextResponse.json({message:"ログイン失敗",flg:false})
+    return NextResponse.json({ message: "ログイン失敗", flg:false })
   } finally {
     await prisma.$disconnect();
   } 
