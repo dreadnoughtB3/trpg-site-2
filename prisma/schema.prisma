@@ -82,6 +82,9 @@ model ItemData {
   name String
   desc String
   obtain String
+  require String
+  category Int
+  slug String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
