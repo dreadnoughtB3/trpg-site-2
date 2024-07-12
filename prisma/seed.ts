@@ -1,13 +1,15 @@
 import * as fs from 'fs';
 import { parse } from 'csv-parse/sync';
-import { PrismaClient } from '@prisma/client'
+import prisma from '../lib/prisma'
 
-const data = fs.readFileSync('prisma/testData/item.csv');
+const data = fs.readFileSync('prisma/testData/item_n.csv');
 const records = parse(data, { columns: true });
-const prisma = new PrismaClient()
+for (const record of records) {
+  console.log(record.desc)
+}
 
 async function main() {
-  console.log(`Start seeding ...`)
+  console.log(`==== Start seeding ====`)
   for (const record of records) {
     const item = await prisma.itemData.create({
       data: {
@@ -20,9 +22,10 @@ async function main() {
         slug: record.slug
       }
     })
-    console.log(`Created user with id: ${item.id}`)
+    console.log(`>>Current Name: ${record.name}`)
+    console.log(`>>Created item with id: ${item.id}`)
   }
-  console.log(`Seeding finished.`)
+  console.log(`==== Seeding finished ====`)
 }
 
 main()

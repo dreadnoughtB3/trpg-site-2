@@ -79,12 +79,12 @@ model Character {
 model ItemData {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   world String
-  name String
+  name String @unique
   desc String
   obtain String
   require String
   category Int
-  slug String
+  slug String @unique
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

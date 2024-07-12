@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { SignJWT } from "jose";
 import { createHash } from "crypto";
 
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export async function POST(request:NextRequest){
   const body = await request.json();

@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 
 const rand = (min: number, max: number): number => {
   return (Math.floor(Math.random() * (max - min + 1)) + min);
 };
-
-const prisma = new PrismaClient();
 
 export async function POST(request:NextRequest){
   const reqBody = await request.json();
