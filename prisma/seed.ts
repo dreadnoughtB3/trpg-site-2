@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { parse } from 'csv-parse/sync';
 import prisma from '../lib/prisma'
 
-const data = fs.readFileSync('prisma/testData/item_n.csv');
+const data = fs.readFileSync('prisma/testData/item.csv');
 const records = parse(data, { columns: true });
 for (const record of records) {
   console.log(record.desc)
