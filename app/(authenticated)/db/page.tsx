@@ -1,6 +1,6 @@
 "use client"
-import Auth from '@/app/utils/Auth';
-import React, { useEffect, useState } from 'react'
+
+import React, { useEffect, useState, Suspense } from 'react'
 import { ChevronRight, ChevronLeft } from "lucide-react"
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
@@ -90,6 +90,7 @@ const DBPage: React.FC = () => {
   
   return (
   <div>
+    <Suspense >
     <Header />
     <div className="min-h-screen bg-[#1e2124]">
       <div className="flex justify-center">
@@ -156,6 +157,7 @@ const DBPage: React.FC = () => {
       </div>
     </div>
     <Footer />
+    </Suspense>
   </div>
   )
 }
